@@ -1,0 +1,9 @@
+DEV_ADOPTED_ENV:
+  DEVELOPING_PC:
+    esURI : ["http://localhost:9200"] #es 주소
+    esUserName : "elastic" #es 아이디
+    esPassword : "changeme" #es 패스워드
+    targetIndex : "prod" #읽을 인덱스명
+    dumpFilePath : "../dump.txt" #파일 위치
+    writeDumpYN : "N" #파일 작성 여부
+    worker : 2 #샤드 개수
