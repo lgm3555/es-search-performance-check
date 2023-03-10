@@ -17,7 +17,7 @@ var startTime time.Time
 func main() {
 	setting.LoadConfig("../config/config.yml")
 	setting.InitEsClient()
-	unlinkClient := setting.EsClient
+	elasticsearchClient := setting.EsClient
 
 	startTime = time.Now()
 	fmt.Println(startTime)
@@ -31,12 +31,12 @@ func main() {
 	size := 10000
 	sum := 0
 
-	scrollQuery := unlinkClient.Scroll(index).Size(size)
+	scrollQuery := elasticsearchClient.Scroll(index).Size(size)
 
 	for {
 		searchResult, err := scrollQuery.Do(context.Background())
 		if err == io.EOF {
-			unlinkClient.ClearScroll(index).ScrollId(searchResult.ScrollId).Do(context.Background())
+			elasticsearchClient.ClearScroll(index).ScrollId(searchResult.ScrollId).Do(context.Background())
 			fmt.Println("Delete Scroll Id")
 			break
 		}
