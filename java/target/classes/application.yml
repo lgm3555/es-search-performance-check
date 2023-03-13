@@ -1,8 +1,0 @@
-elasticsearch:
-  scheme: http
-  url: localhost
-  port: 9200
-  target:
-    index: market
-  write: N
-  worker: 2
