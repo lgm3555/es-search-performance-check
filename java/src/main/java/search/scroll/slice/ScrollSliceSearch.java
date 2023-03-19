@@ -28,7 +28,7 @@ public class ScrollSliceSearch {
         for (int i = 0; i < max; i++) {
             int innerI = i;
             executorService.execute(() -> {
-                SearchRequest searchRequest = buildSearchRequest(index, id, max);
+                SearchRequest searchRequest = buildSearchRequest(index, innerI, max);
                 try {
                     SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
                     hitDataCheck(searchResponse.getHits(), innerI);
@@ -58,11 +58,11 @@ public class ScrollSliceSearch {
         executorService.shutdown();
     }
 
-    private SearchRequest buildSearchRequest(String index, int id, int max) {
+    private SearchRequest buildSearchRequest(String index, int innerI, int max) {
         SearchRequest searchRequest = new SearchRequest(index);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.size(PAGE_SIZE);
-        searchSourceBuilder.slice(new SliceBuilder(0, 2));
+        searchSourceBuilder.slice(new SliceBuilder(innerI, max));
         searchRequest.source(searchSourceBuilder);
         searchRequest.scroll(SCROLL_TIMEOUT);
         return searchRequest;
