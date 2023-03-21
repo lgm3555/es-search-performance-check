@@ -39,20 +39,39 @@ Scroll Search와 PIT 에서만 사용 가능하며 `인덱스의 샤드와 동�
 Scroll Search와 PIT에서만 사용 가능, `[slice]` can only be used with `[scroll]` or `[point-in-time]` requests
 
 ```
-1. scroll API + slice 적용
-GET _search
+1. 첫 조회
+POST index/_search?scroll=1m
 {
-  "size": 10000,
-  "slice": {
-    "id": 0,
-    "max": 10
-  },
-  "pit": {
-    "id" : "s9C1Aw....",
-    "keep_alive": "1m"
-  },
-  "search_after": [9999],
-  "sort": ["_doc"]
+    "query": {
+        "match_all": {}
+    },
+    "slice": {
+        "id": 0,
+        "max": 2
+    }
+}
+POST index/_search?scroll=1m
+{
+    "query": {
+        "match_all": {}
+    },
+    "slice": {
+        "id": 1,
+        "max": 2
+    }
+}
+
+2. id 조회
+POST /_search/scroll
+{
+    "scroll": "1m",
+    "scroll_id": "FGluY2x1ZGVfY29udGV4dF...."
+}
+2-1. slice id 조회
+POST /_search/scroll
+{
+    "scroll": "1m",
+    "scroll_id": "FGluY2x1ZGVfY29udGV4dF...."
 }
 ```
 
